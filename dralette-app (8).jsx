@@ -310,7 +310,7 @@ const CSS = `
     z-index: 1;
   }
   .hero-content {
-    padding: 24px 24px 32px;
+    padding: 8px 24px 44px;
   }
   .hero-eyebrow {
     font-size: 0.7rem;
@@ -335,7 +335,7 @@ const CSS = `
     font-size: 0.88rem;
     color: rgba(255,255,255,0.88);
     line-height: 1.5;
-    margin-bottom: 20px;
+    margin-bottom: 0;
   }
   .hero-cta {
     display: inline-flex;
@@ -2450,9 +2450,6 @@ export default function App() {
                 <p className="hero-desc">
                   Din sista viktresa med Dr Alette®
                 </p>
-                <a href={WEBSITE_URL} target="_blank" rel="noreferrer" className="hero-cta">
-                  Börja din viktresa <IconExternal />
-                </a>
               </div>
             </div>
 
