@@ -2387,6 +2387,7 @@ export default function App() {
   const [valtLektion, setValtLektion] = useState(null);
   const [klickConfirmed, setVardenConfirmed] = useState(false);
   const [klickGate, setVardenGate] = useState(false);
+  const [showDisclaimer, setShowDisclaimer] = useState(() => !localStorage.getItem("disclaimer_accepted"));
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -2410,9 +2411,63 @@ export default function App() {
     }
   }
 
+  function acceptDisclaimer() {
+    localStorage.setItem("disclaimer_accepted", "1");
+    setShowDisclaimer(false);
+  }
+
   return (
     <>
       <style>{CSS}</style>
+
+      {showDisclaimer && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 9999,
+          background: "rgba(0,0,0,0.55)",
+          display: "flex", alignItems: "flex-end", justifyContent: "center",
+        }}>
+          <div style={{
+            background: "white",
+            borderRadius: "20px 20px 0 0",
+            padding: "28px 24px 36px",
+            maxWidth: 480,
+            width: "100%",
+            boxShadow: "0 -4px 32px rgba(0,0,0,0.18)",
+            maxHeight: "85vh",
+            overflowY: "auto",
+          }}>
+            <h2 style={{
+              fontFamily: "Nunito, sans-serif", fontWeight: 900,
+              fontSize: "1.1rem", color: "var(--text-dark)",
+              marginBottom: 16,
+            }}>Viktig information</h2>
+            {[
+              "Denna app tillhandahålls av Dr Alette AB och innehåller information och verktyg för hälsa och viktbehandling. Innehållet är endast avsett för informations- och utbildningsändamål och ersätter inte professionell medicinsk rådgivning, diagnos eller behandling.",
+              "Kontakta alltid legitimerad vårdpersonal vid medicinska frågor eller innan du påbörjar, ändrar eller avslutar behandling. Använd inte appen för att fatta medicinska beslut utan kontakt med vårdpersonal.",
+              "Appen är inte avsedd för akuta tillstånd eller nödsituationer. Vid akuta besvär, kontakta sjukvården eller ring 112.",
+              "Appen riktar sig till vuxna. Användning avseende barn ska ske av vårdnadshavare inom ramen för medicinsk kontakt.",
+              "Genom att fortsätta bekräftar du att du har tagit del av denna information. Fullständig information och villkor finns i appen.",
+            ].map((t, i, arr) => (
+              <p key={i} style={{
+                fontSize: "0.83rem", color: "var(--text)", lineHeight: 1.65,
+                marginBottom: i < arr.length - 1 ? 12 : 20,
+              }}>{t}</p>
+            ))}
+            <button onClick={acceptDisclaimer} style={{
+              width: "100%",
+              background: "var(--pink)",
+              color: "white",
+              fontFamily: "Nunito, sans-serif",
+              fontWeight: 800,
+              fontSize: "0.95rem",
+              padding: "14px",
+              borderRadius: "50px",
+              border: "none",
+              cursor: "pointer",
+            }}>Jag förstår – fortsätt</button>
+          </div>
+        </div>
+      )}
 
       {/* TOP BAR */}
       <div className="topbar">
@@ -2500,6 +2555,28 @@ export default function App() {
               <HemBarnBmi />
 
             </div>
+
+            {/* Villkor */}
+            <div style={{ padding: "20px 20px 0" }}>
+              <div style={{ background: "white", borderRadius: "var(--radius)", padding: "20px", boxShadow: "var(--shadow-sm)", border: "1px solid rgba(87,87,86,0.07)", marginBottom: 12 }}>
+                <h2 style={{ fontFamily: "Nunito, sans-serif", fontWeight: 900, fontSize: "1.1rem", color: "var(--text-dark)", marginBottom: 14 }}>Villkor</h2>
+                {[
+                  "Den här appen är framtagen av Dr Alette AB, 556924-2919, för att ge kunskap, stöd och uppföljning vid viktbehandling och livsstilsförändring. Den kan användas kostnadsfritt av alla, med tillgång till extra material för våra inskrivna patienter.",
+                  "DrAlette AB är ett vårdföretag drivet av specialistläkare. Verksamheten står under IVO:s tillsyn och följer Socialstyrelsens regler för hälso- och sjukvård.",
+                  "Appen riktar sig till vuxna användare. Om appen används för viktbehandling av barn under 18 år ska det ske via vårdnadshavarens mobila enhet. Appen är inte avsedd att användas direkt av barn.",
+                  "Informationen i appen är generell och ersätter inte individuell medicinsk bedömning, diagnos eller behandling. Kontakta alltid legitimerad vårdpersonal vid medicinska frågor eller om ditt hälsotillstånd förändras.",
+                  "Behandling med läkemedel och individuella råd ges endast efter medicinsk bedömning av vårdpersonal. All användning av läkemedel ska ske enligt ordination.",
+                  "Appen är inte avsedd för akuta tillstånd eller brådskande medicinska frågor. Vid akuta besvär eller allvarliga symtom, kontakta sjukvården eller ring 112.",
+                  "Du ansvarar själv för hur du använder informationen i appen. Dr Alette AB ansvarar inte för beslut som fattas enbart baserat på innehåll i appen utan medicinsk kontakt.",
+                  "Appen kan innehålla tekniska begränsningar och funktioner kan förändras över tid.",
+                  "Personuppgifter och hälsodata hanteras enligt gällande lagstiftning. Se vår integritetspolicy för mer information.",
+                  "Genom att använda appen bekräftar du att du har tagit del av och förstått denna information.",
+                ].map((t, i, arr) => (
+                  <p key={i} style={{ fontSize: "0.85rem", color: "var(--text)", lineHeight: 1.7, marginBottom: i < arr.length - 1 ? 12 : 0 }}>{t}</p>
+                ))}
+              </div>
+            </div>
+
             <div className="padding-bottom" />
           </>
         )}
